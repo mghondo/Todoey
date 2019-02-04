@@ -12,7 +12,6 @@
 		2EE5A76A2204BFDB0083EE3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5A7682204BFDB0083EE3D /* Main.storyboard */; };
 		2EE5A76C2204BFDC0083EE3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5A76B2204BFDC0083EE3D /* Assets.xcassets */; };
 		2EE5A76F2204BFDC0083EE3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5A76D2204BFDC0083EE3D /* LaunchScreen.storyboard */; };
-		2EE5A7792205D9820083EE3D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5A7782205D9820083EE3D /* Item.swift */; };
 		2EF845322208CA85003A0252 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EF845302208CA85003A0252 /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +23,6 @@
 		2EE5A76B2204BFDC0083EE3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EE5A76E2204BFDC0083EE3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EE5A7702204BFDC0083EE3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2EE5A7782205D9820083EE3D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		2EF845312208CA85003A0252 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,7 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				2EF845302208CA85003A0252 /* DataModel.xcdatamodeld */,
-				2EE5A7782205D9820083EE3D /* Item.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -175,7 +172,6 @@
 			files = (
 				2EE5A7672204BFDB0083EE3D /* ToDoListViewController.swift in Sources */,
 				2EF845322208CA85003A0252 /* DataModel.xcdatamodeld in Sources */,
-				2EE5A7792205D9820083EE3D /* Item.swift in Sources */,
 				2EE5A7652204BFDB0083EE3D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
