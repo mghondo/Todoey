@@ -78,7 +78,7 @@ class ToDoListViewController: UITableViewController {
             
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
-            newItem.title = textField.text!
+//            newItem.title = textField.text!
             newItem.done = false
             
             
