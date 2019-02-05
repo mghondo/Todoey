@@ -13,30 +13,22 @@ class ToDoListViewController: UITableViewController {
     
     
     var itemArray = [Item]()
-
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
+    let request : NSFetchRequest<Item> = Item.fetchRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         
-
+        
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist"))
         
-//        let newItem = Item()
-//        newItem.title = "Find Mike"
-//        itemArray.append(newItem)
-//
-//        let newItem2 = Item()
-//        newItem2.title = "Buy Eggos"
-//        itemArray.append(newItem2)
-//
-//        let newItem3 = Item()
-//        newItem3.title = "Destroy Demogorgon"
-//        itemArray.append(newItem3)
-
+        
+        
+        
         loadItems()
     }
     
@@ -48,30 +40,24 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         
         let item = itemArray[indexPath.row]
         
-        cell?.textLabel?.text = item.title
+        cell.textLabel?.text = item.title
         
-        // Ternary operator ==>
-        // value = condition ? valueIfTrue : valueIfFalse
+        cell.accessoryType = item.done ? .checkmark : .none
         
-        cell!.accessoryType = item.done ? .checkmark : .none
-        
-        // If Statment
-        //        if item.done == true {
-        //            cell?.accessoryType = .checkmark
-        //        } else {
-        //            cell?.accessoryType = .none
-        //        }
-        
-        return cell!
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        context.delete(itemArray[indexPath.row])
+        itemArray.remove(at: indexPath.row)
+        
+        
+        //        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
         
@@ -113,7 +99,7 @@ class ToDoListViewController: UITableViewController {
     }
     
     func saveItems() {
-
+        
         
         do {
             
@@ -125,16 +111,35 @@ class ToDoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func loadItems() {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest()) {
+        
         do {
-            try context.fetch(request)
+            itemArray = try context.fetch(request)
         } catch {
             print("Error in this mug: \(error)")
         }
-
+        
+        tableView.reloadData()
+        
     }
+    
+    
     
 }
 
+extension ToDoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+        
+        tableView.reloadData()
+    }
+    
+}
 
