@@ -37,6 +37,21 @@ class CategoryViewController: UITableViewController {
         
         return cell
     }
+    
+    //MARK: - TableView Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ToDoListViewController
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = categories[indexPath.row]
+        }
+    }
+    
     //MARK: - Data Manipulation Methods
     
     func saveCategories() {
@@ -91,7 +106,7 @@ class CategoryViewController: UITableViewController {
         
     }
     
-    //MARK: - TableView Delegate Methods
+
     
     
     
