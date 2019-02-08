@@ -21,14 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(Realm.Configuration.defaultConfiguration.fileURL)
         
         
-        let data = Data()
-        data.name = "Angela"
-        data.age = 12
+
         
         do {
             let realm = try Realm()
             try realm.write {
-                realm.add(data)
+
             }
         } catch {
             print("Error in AppDelegate application() Func: \(error)")
