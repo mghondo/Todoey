@@ -8,10 +8,10 @@
 
 import UIKit
 import RealmSwift
-import SwipeCellKit
 
 
-class ToDoListViewController: UITableViewController {
+
+class ToDoListViewController: SwipeTableViewController {
     
     
     var todoItems: Results<Item>?
@@ -37,7 +37,7 @@ class ToDoListViewController: UITableViewController {
         
         
         
-//        loadItems()
+        //        loadItems()
     }
     
     //MARK - Tableview Datasource Methods
@@ -48,7 +48,7 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = todoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
@@ -67,10 +67,10 @@ class ToDoListViewController: UITableViewController {
         
         if let item = todoItems?[indexPath.row] {
             do {
-            try realm.write {
-//                realm.delete(item)
-                item.done = !item.done
-            }
+                try realm.write {
+                    //                realm.delete(item)
+                    item.done = !item.done
+                }
             } catch {
                 print("ERROR UPDATING ITEMS: \(error)")
             }
@@ -93,16 +93,16 @@ class ToDoListViewController: UITableViewController {
             
             if let currentCategory = self.selectedCategory {
                 do {
-                try self.realm.write {
-                    let newItem = Item()
-                    newItem.title = textField.text!
-                    newItem.dateCreated = Date()
-                    currentCategory.items.append(newItem)
-                }
+                    try self.realm.write {
+                        let newItem = Item()
+                        newItem.title = textField.text!
+                        newItem.dateCreated = Date()
+                        currentCategory.items.append(newItem)
+                    }
                 } catch {
                     print("Error saving new Item: \(error)")
                 }
-
+                
             }
             self.tableView.reloadData()
         }
@@ -118,37 +118,47 @@ class ToDoListViewController: UITableViewController {
         
     }
     
-
+    
     
     func loadItems() {
-
+        
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
-
+        
         tableView.reloadData()
-
+        
     }
     
-    
+    override func updateModel(at indexPath: IndexPath) {
+        if let item = todoItems?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(item)
+                }
+            } catch {
+                print("ERROR DELETING ITEM: \(error)")
+            }
+        }
+    }
     
 }
 
 extension ToDoListViewController: UISearchBarDelegate {
-
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
         
         tableView.reloadData()
     }
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
             loadItems()
-
+            
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
         }
     }
-
+    
 }
 
